@@ -178,6 +178,66 @@ paths:
             - "admin"
             - "openid"
 
+  /utilisateurs/{idUtilisateur}/operations-permanentes/:
+    get:
+      tags:
+        - utilisateurs
+      summary: Liste les operations permanentes d'un utilisateur
+      operationId: listerOperationPermanenteUtilisateur
+      description: ""
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: idUtilisateur
+          in: path
+          description: Identifiant de l'utilisateur
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/OperationPermanenteDtos'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+      security:
+        - auth:
+            - "admin"
+            - "openid"
+
+  /utilisateurs/{idUtilisateur}/operations/:
+    get:
+      tags:
+        - utilisateurs
+      summary: Liste les operations d'un utilisateur
+      operationId: listerOperationUtilisateur
+      description: ""
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: idUtilisateur
+          in: path
+          description: Identifiant de l'utilisateur
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/OperationDtos'
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+      security:
+        - auth:
+            - "admin"
+            - "openid"
+
   /utilisateurs/{id}:
     get:
       tags:
@@ -210,21 +270,34 @@ paths:
             - "admin"
             - "openid"
 
-  /operations/:
+  /utilisateurs/{idUtilisateur}/operations-permanentes/{idOperationPermanente}:
     get:
       tags:
-        - operations
-      summary: "Liste les operation d'un utilisateur"
-      operationId: listerOperationUtilisateur
-      description: "Utilise le jeton JWT pour connaitre l'utilisateur a travers `Principal`"
+        - utilisateurs
+      summary: Recuperer une operation permanente par son utilisateur et son identifiant
+      operationId: recupererOperationPermanenteParUtilisateur
+      description: ""
       produces:
         - "application/json"
         - "application/xml"
+      parameters:
+        - name: idUtilisateur
+          description: Identifiant de l'utilisateur
+          in: path
+          type: string
+          required: true
+        - name: idOperationPermanente
+          description: Identifiant de l'operation permanente
+          in: path
+          type: string
+          required: true
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/OperationDtos'
+            $ref: '#/definitions/OperationPermanenteDto'
+        404:
+          description: Utilisateur non trouve
         401:
           description: Unauthorized
         403:
@@ -233,6 +306,45 @@ paths:
         - auth:
             - "admin"
             - "openid"
+
+  /utilisateurs/{idUtilisateur}/operations/{idOperation}:
+    get:
+      tags:
+        - utilisateurs
+      summary: Recuperer une operation par son utilisateur et son identifiant
+      operationId: recupererOperationParUtilisateur
+      description: ""
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: idUtilisateur
+          description: Identifiant de l'utilisateur
+          in: path
+          type: string
+          required: true
+        - name: idOperation
+          description: Identifiant de l'operation
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/OperationDto'
+        404:
+          description: Utilisateur non trouve
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+      security:
+        - auth:
+            - "admin"
+            - "openid"
+
+  /operations/:
     post:
       tags:
         - operations
@@ -336,28 +448,6 @@ paths:
             - "openid"
 
   /operations-permanentes/:
-    get:
-      tags:
-        - operationsPermanentes
-      summary: "Liste les operation permanente d'un utilisateur"
-      description: "Utilise le jeton JWT pour connaitre l'utilisateur a travers `Principal`"
-      operationId: listerOperationPermanenteUtilisateur
-      produces:
-        - "application/json"
-        - "application/xml"
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/OperationPermanenteDtos'
-        401:
-          description: Unauthorized
-        403:
-          description: Forbidden
-      security:
-        - auth:
-            - "admin"
-            - "openid"
     post:
       tags:
         - operationsPermanentes
@@ -471,109 +561,130 @@ securityDefinitions:
       openid: "pour les operation liee a Okta"
 
 definitions:
-  UtilisateurDto:
+  ResourceSupport:
     type: object
     required:
-      - email
-      - nom
-      - prenom
+      - "className"
+    discriminator: "className"
     properties:
-      id:
-        type: string
-        description: Identifiant de l'utilisateur
-        example: "1"
-      nom:
-        type: string
-        description: Nom de l'utilisateur
-        example: "Marchive"
-      prenom:
-        type: string
-        description: Prenom de l'utilisateur
-        example: "Cyril"
-      email:
-        type: string
-        description: Email de l'utilisateur
-        example: "cyril.marchive@gmail.com"
+      className:
+        type: "string"
+
+  UtilisateurDto:
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - email
+          - nom
+          - prenom
+        properties:
+          identifiant:
+            type: string
+            description: Identifiant de l'utilisateur
+            example: "1"
+          nom:
+            type: string
+            description: Nom de l'utilisateur
+            example: "Marchive"
+          prenom:
+            type: string
+            description: Prenom de l'utilisateur
+            example: "Cyril"
+          email:
+            type: string
+            description: Email de l'utilisateur
+            example: "cyril.marchive@gmail.com"
 
   UtilisateurDtos:
-    type: object
-    required:
-      - utilisateurDtos
-    properties:
-      utilisateurDtos:
-        type: array
-        items:
-          $ref: '#/definitions/UtilisateurDto'
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - utilisateurDtos
+        properties:
+          utilisateurDtos:
+            type: array
+            items:
+              $ref: '#/definitions/UtilisateurDto'
 
   OperationPermanenteDto:
-    type: object
-    required:
-      - intitule
-      - jour
-      - prix
-    properties:
-      id:
-        type: string
-        description: Identifiant de l'operation permanente
-        example: 1
-      intitule:
-        type: string
-        description: Intitule de l'operation permanente
-        example: Videotron
-      prix:
-        type: number
-        description: Prix de l'operation permanente
-        example: 60.0
-      jour:
-        type: integer
-        description: Jour du mois de l'operation permanente
-        example: "12"
-      utilisateurDto:
-        $ref: '#/definitions/UtilisateurDto'
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - intitule
+          - jour
+          - prix
+        properties:
+          identifiant:
+            type: string
+            description: Identifiant de l'operation permanente
+            example: 1
+          intitule:
+            type: string
+            description: Intitule de l'operation permanente
+            example: Videotron
+          prix:
+            type: number
+            description: Prix de l'operation permanente
+            example: 60.0
+          jour:
+            type: integer
+            description: Jour du mois de l'operation permanente
+            example: "12"
+          utilisateurDto:
+            $ref: '#/definitions/UtilisateurDto'
 
   OperationPermanenteDtos:
-    type: object
-    required:
-      - operationPermanenteDtos
-    properties:
-      operationPermanenteDtos:
-        type: array
-        items:
-          $ref: '#/definitions/OperationPermanenteDto'
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - operationPermanenteDtos
+        properties:
+          operationPermanenteDtos:
+            type: array
+            items:
+              $ref: '#/definitions/OperationPermanenteDto'
 
   OperationDto:
-    type: object
-    required:
-      - dateOperation
-      - intitule
-      - prix
-    properties:
-      id:
-        type: string
-        description: Identifiant de l'operation
-        example: 1
-      intitule:
-        type: string
-        description: Intitule de l'operation
-        example: Hydro Quebec
-      prix:
-        type: number
-        description: Prix de l'operation
-        example: 100.0
-      dateOperation:
-        type: string
-        format: date
-        description: Date de l'operation au format *yyyy-dd-MM*
-        example: "2017-07-21"
-      utilisateurDto:
-        $ref: '#/definitions/UtilisateurDto'
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - dateOperation
+          - intitule
+          - prix
+        properties:
+          identifiant:
+            type: string
+            description: Identifiant de l'operation
+            example: 1
+          intitule:
+            type: string
+            description: Intitule de l'operation
+            example: Hydro Quebec
+          prix:
+            type: number
+            description: Prix de l'operation
+            example: 100.0
+          dateOperation:
+            type: string
+            format: date
+            description: Date de l'operation au format *yyyy-dd-MM*
+            example: "2017-07-21"
+          utilisateurDto:
+            $ref: '#/definitions/UtilisateurDto'
 
   OperationDtos:
-    type: object
-    required:
-      - operationDtos
-    properties:
-      operationDtos:
-        type: array
-        items:
-          $ref: '#/definitions/OperationDto'
+    allOf:
+      - $ref: '#/definitions/ResourceSupport'
+      - type: object
+        required:
+          - operationDtos
+        properties:
+          operationDtos:
+            type: array
+            items:
+              $ref: '#/definitions/OperationDto'
