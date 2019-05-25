@@ -32,6 +32,7 @@ paths:
       description: ""
       produces:
         - "application/json"
+        - "application/xml"
       responses:
         200:
           description: OK
@@ -53,8 +54,10 @@ paths:
       description: ""
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -87,8 +90,10 @@ paths:
       description: ""
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -151,6 +156,7 @@ paths:
       description: ""
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: query
           name: email
@@ -181,6 +187,7 @@ paths:
       description: ""
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - name: id
           in: path
@@ -212,6 +219,7 @@ paths:
       description: "Utilise le jeton JWT pour connaitre l'utilisateur a travers `Principal`"
       produces:
         - "application/json"
+        - "application/xml"
       responses:
         200:
           description: OK
@@ -233,8 +241,10 @@ paths:
       description: "Utilise le jeton JWT pour connaitre l'utilisateur a travers `Principal`"
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -267,8 +277,10 @@ paths:
       description: ""
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -301,6 +313,7 @@ paths:
       description: ""
       consumes:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -331,6 +344,7 @@ paths:
       operationId: listerOperationPermanenteUtilisateur
       produces:
         - "application/json"
+        - "application/xml"
       responses:
         200:
           description: OK
@@ -352,8 +366,10 @@ paths:
       operationId: ajouterOperationPermanenteAUtilisateur
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -386,8 +402,10 @@ paths:
       operationId: modifierOperationPermanenteUtilisateur
       consumes:
         - "application/json"
+        - "application/xml"
       produces:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -420,6 +438,7 @@ paths:
       operationId: supprimerOperationPermanenteUtilisateur
       consumes:
         - "application/json"
+        - "application/xml"
       parameters:
         - in: body
           name: body
@@ -440,8 +459,6 @@ paths:
         - auth:
             - "admin"
             - "openid"
-
-
 
 securityDefinitions:
   auth:
