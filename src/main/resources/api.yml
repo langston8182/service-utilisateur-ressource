@@ -118,34 +118,6 @@ paths:
         - auth:
             - "admin"
             - "openid"
-    delete:
-      tags:
-        - utilisateurs
-      summary: Supprimer un utilisateur
-      operationId: supprimerUtilisateur
-      description: ""
-      consumes:
-        - "application/json"
-      parameters:
-        - in: body
-          name: body
-          description: Utilisateur a supprimer
-          required: true
-          schema:
-            $ref: '#/definitions/UtilisateurDto'
-      responses:
-        204:
-          description: OK aucun contenu
-        401:
-          description: Unauthorized
-        403:
-          description: Forbidden
-        405:
-          description: Elements en entree invalides
-      security:
-        - auth:
-            - "admin"
-            - "openid"
 
   /utilisateurs:
     get:
@@ -265,6 +237,34 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/UtilisateurDto'
+      security:
+        - auth:
+            - "admin"
+            - "openid"
+    delete:
+      tags:
+        - utilisateurs
+      summary: Supprimer un utilisateur
+      operationId: supprimerUtilisateur
+      description: ""
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant de l"utilisateur
+          required: true
+          type: string
+      responses:
+        204:
+          description: OK aucun contenu
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        405:
+          description: Elements en entree invalides
       security:
         - auth:
             - "admin"
@@ -417,22 +417,23 @@ paths:
         - auth:
             - "admin"
             - "openid"
+
+  /operations/{idOperation}:
     delete:
       tags:
         - operations
       summary: Supprimer une operation
       operationId: supprimerOperationUtilisateur
       description: ""
-      consumes:
+      produces:
         - "application/json"
         - "application/xml"
       parameters:
-        - in: body
-          name: body
-          description: Operation a supprimer
+        - name: idOperation
+          in: path
+          description: Identifiant de l'operation à supprimer
           required: true
-          schema:
-            $ref: '#/definitions/OperationDto'
+          type: string
       responses:
         204:
           description: OK aucun contenu
@@ -446,6 +447,7 @@ paths:
         - auth:
             - "admin"
             - "openid"
+
 
   /operations-permanentes/:
     post:
@@ -520,22 +522,23 @@ paths:
         - auth:
             - "admin"
             - "openid"
+
+  /operations-permanentes/{idOperationPermanente}:
     delete:
       tags:
         - operationsPermanentes
       summary: Supprimer une operation permanente
       description: ""
       operationId: supprimerOperationPermanenteUtilisateur
-      consumes:
+      produces:
         - "application/json"
         - "application/xml"
       parameters:
-        - in: body
-          name: body
-          description: Operation permanente a supprimer
+        - name: idOperationPermanente
+          in: path
+          description: Identifiant de l'operation permanente a supprimer
           required: true
-          schema:
-            $ref: '#/definitions/OperationPermanenteDto'
+          type: string
       responses:
         204:
           description: OK aucun contenu
