@@ -82,42 +82,6 @@ paths:
         - auth:
             - "admin"
             - "openid"
-    put:
-      tags:
-        - utilisateurs
-      summary: Modifier un utilisateur
-      operationId: modifierUtilisateur
-      description: ""
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/json"
-        - "application/xml"
-      parameters:
-        - in: body
-          name: body
-          description: Utilisateur a modifier
-          required: true
-          schema:
-            $ref: '#/definitions/UtilisateurDto'
-      responses:
-        404:
-          description: Utilisateur non trouve
-        401:
-          description: Unauthorized
-        403:
-          description: Forbidden
-        405:
-          description: Elements en entree invalides
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/UtilisateurDto'
-      security:
-        - auth:
-            - "admin"
-            - "openid"
 
   /utilisateurs:
     get:
@@ -269,6 +233,47 @@ paths:
         - auth:
             - "admin"
             - "openid"
+    put:
+      tags:
+        - utilisateurs
+      summary: Modifier un utilisateur
+      operationId: modifierUtilisateur
+      description: ""
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant de l"utilisateur
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Utilisateur a modifier
+          required: true
+          schema:
+            $ref: '#/definitions/UtilisateurDto'
+      responses:
+        404:
+          description: Utilisateur non trouve
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        405:
+          description: Elements en entree invalides
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/UtilisateurDto'
+      security:
+        - auth:
+            - "admin"
+            - "openid"
 
   /utilisateurs/{idUtilisateur}/operations-permanentes/{idOperationPermanente}:
     get:
@@ -381,42 +386,6 @@ paths:
         - auth:
             - "admin"
             - "openid"
-    put:
-      tags:
-        - operations
-      summary: Modifier une operation
-      operationId: modifierOperationUtilisateur
-      description: ""
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/json"
-        - "application/xml"
-      parameters:
-        - in: body
-          name: body
-          description: Operation a modifier
-          required: true
-          schema:
-            $ref: '#/definitions/OperationDto'
-      responses:
-        404:
-          description: Utilisateur non trouve
-        401:
-          description: Unauthorized
-        403:
-          description: Forbidden
-        405:
-          description: Elements en entree invalides
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/OperationDto'
-      security:
-        - auth:
-            - "admin"
-            - "openid"
 
   /operations/{idOperation}:
     delete:
@@ -447,6 +416,47 @@ paths:
         - auth:
             - "admin"
             - "openid"
+    put:
+      tags:
+        - operations
+      summary: Modifier une operation
+      operationId: modifierOperationUtilisateur
+      description: ""
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: idOperation
+          in: path
+          description: Identifiant de l'operation à supprimer
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Operation a modifier
+          required: true
+          schema:
+            $ref: '#/definitions/OperationDto'
+      responses:
+        404:
+          description: Utilisateur non trouve
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        405:
+          description: Elements en entree invalides
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/OperationDto'
+      security:
+        - auth:
+            - "admin"
+            - "openid"
 
 
   /operations-permanentes/:
@@ -466,42 +476,6 @@ paths:
         - in: body
           name: body
           description: Operation permanente a ajouter (Sans le Id et l'utilisateur)
-          required: true
-          schema:
-            $ref: '#/definitions/OperationPermanenteDto'
-      responses:
-        404:
-          description: Utilisateur non trouve
-        401:
-          description: Unauthorized
-        403:
-          description: Forbidden
-        405:
-          description: Elements en entree invalides
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/OperationPermanenteDto'
-      security:
-        - auth:
-            - "admin"
-            - "openid"
-    put:
-      tags:
-        - operationsPermanentes
-      summary: Modifier une operation permanente
-      description: ""
-      operationId: modifierOperationPermanenteUtilisateur
-      consumes:
-        - "application/json"
-        - "application/xml"
-      produces:
-        - "application/json"
-        - "application/xml"
-      parameters:
-        - in: body
-          name: body
-          description: Operation permanente a modifier
           required: true
           schema:
             $ref: '#/definitions/OperationPermanenteDto'
@@ -548,6 +522,47 @@ paths:
           description: Forbidden
         405:
           description: Elements en entree invalides
+      security:
+        - auth:
+            - "admin"
+            - "openid"
+    put:
+      tags:
+        - operationsPermanentes
+      summary: Modifier une operation permanente
+      description: ""
+      operationId: modifierOperationPermanenteUtilisateur
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - name: idOperationPermanente
+          in: path
+          description: Identifiant de l'operation permanente a supprimer
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Operation permanente a modifier
+          required: true
+          schema:
+            $ref: '#/definitions/OperationPermanenteDto'
+      responses:
+        404:
+          description: Utilisateur non trouve
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        405:
+          description: Elements en entree invalides
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/OperationPermanenteDto'
       security:
         - auth:
             - "admin"
